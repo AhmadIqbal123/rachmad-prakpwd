@@ -1,0 +1,158 @@
+1. Langkah - langkah praktikum 
+
+a. Membuat database
+MariaDB [(none)]> create database akademik;
+Query OK, 1 rows affected (0.001 sec)
+
+b. Membuat table mahasiswa didalam database akademik
+MariaDB [(none)]> use akademik;
+Database changed
+MariaDB [akademik]> create table mahasiswa (
+    -> NIM varchar(5),
+    -> Nama varchar(50),
+    -> JKEL varchar(1),
+    -> Alamat text,
+    -> TGLLHR date,
+    -> Primary Key (NIM)
+    -> );
+Query OK, 0 rows affected (0.020 sec)
+
+c. Menambahkan data dalam table mahasiswa
+MariaDB [akademik]> INSERT INTO mahasiswa VALUES ('MHS01','Siti Aminah','P','SOLO','1995-10-01');
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [akademik]> INSERT INTO mahasiswa VALUES ('MHS02','Rita','P','SOLO','1999-01-01');
+Query OK, 1 row affected (0.009 sec)
+
+MariaDB [akademik]> INSERT INTO mahasiswa VALUES ('MHS03','Amirudin','L','SEMARANG','1998-08-11');
+Query OK, 1 row affected (0.009 sec)
+
+MariaDB [akademik]> INSERT INTO mahasiswa VALUES ('MHS04','Siti Maryam','P','JAKARTA','1995-04-15');
+Query OK, 1 row affected (0.048 sec)
+
+d. Menampilkan data berdasarkan kriteria tertentu
+MariaDB [akademik]> select * from mahasiswa;
++-------+-------------+------+----------+------------+
+| NIM   | Nama        | JKEL | Alamat   | TGLLHR     |
++-------+-------------+------+----------+------------+
+| MHS01 | Siti Aminah | P    | SOLO     | 1995-10-01 |
+| MHS02 | Rita        | P    | SOLO     | 1999-01-01 |
+| MHS03 | Amirudin    | L    | SEMARANG | 1998-08-11 |
+| MHS04 | Siti Maryam | P    | JAKARTA  | 1995-04-15 |
++-------+-------------+------+----------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [akademik]> select * from mahasiswa WHERE Alamat='SOLO';
++-------+-------------+------+--------+------------+
+| NIM   | Nama        | JKEL | Alamat | TGLLHR     |
++-------+-------------+------+--------+------------+
+| MHS01 | Siti Aminah | P    | SOLO   | 1995-10-01 |
+| MHS02 | Rita        | P    | SOLO   | 1999-01-01 |
++-------+-------------+------+--------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [akademik]>
+
+2. Menambahka field baru didalam table mahasiswa dan tambahkan data kedalamnya.
+MariaDB [(none)]> use akademik;
+Database changed
+MariaDB [akademik]> alter table mahasiswa add fakultas varchar(100);
+Query OK, 0 rows affected (0.090 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [akademik]> desc mahasiswa;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| NIM      | varchar(5)   | NO   | PRI | NULL    |       |
+| Nama     | varchar(50)  | YES  |     | NULL    |       |
+| JKEL     | varchar(1)   | YES  |     | NULL    |       |
+| Alamat   | text         | YES  |     | NULL    |       |
+| TGLLHR   | date         | YES  |     | NULL    |       |
+| fakultas | varchar(100) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.018 sec)
+
+MariaDB [akademik]>  INSERT INTO mahasiswa VALUES ('MHS05','Rachmad Nur Fauzi','L','BOYOLALI','2000-04-30','Fakultas Teknologi Industri');
+Query OK, 1 row affected, 1 warning (0.009 sec)
+
+MariaDB [akademik]> UPDATE mahasiswa SET fakultas ='Fakultas Teknologi Industri' WHERE NIM='MHS01';
+Query OK, 1 row affected (0.018 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [akademik]> UPDATE mahasiswa SET fakultas ='Fakultas Kedokteran' WHERE NIM='MHS02';
+Query OK, 1 row affected (0.010 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [akademik]> UPDATE mahasiswa SET fakultas ='Fakultas Hukum' WHERE NIM='MHS03';
+Query OK, 1 row affected (0.010 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [akademik]> UPDATE mahasiswa SET fakultas ='Fakultas Kesehatan Masyarakat' WHERE NIM='MHS04';
+Query OK, 1 row affected (0.010 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+3.	Melakukan perintah yang berbeda untuk menampilkan data pada table mahasiswa.  
+MariaDB [akademik]> select * from mahasiswa where Alamat='SOLO';
++-------+-------------+------+--------+------------+-----------------------------+
+| NIM   | Nama        | JKEL | Alamat | TGLLHR     | fakultas                    |
++-------+-------------+------+--------+------------+-----------------------------+
+| MHS01 | Siti Aminah | P    | SOLO   | 1995-10-01 | Fakultas Teknologi Industri |
+| MHS02 | Rita        | P    | SOLO   | 1999-01-01 | Fakultas Kedokteran         |
++-------+-------------+------+--------+------------+-----------------------------+
+2 rows in set (0.002 sec)
+
+MariaDB [akademik]> select * from mahasiswa where NIM='MHS05';
++-------+-------------------+------+----------+------------+-----------------------------+
+| NIM   | Nama              | JKEL | Alamat   | TGLLHR     | fakultas                    |
++-------+-------------------+------+----------+------------+-----------------------------+
+| MHS05 | Rachmad Nur Fauzi | L    | BOYOLALI | 2000-04-30 | Fakultas Teknologi Industri |
++-------+-------------------+------+----------+------------+-----------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [akademik]> select *from mahasiswa where fakultas='Fakultas Teknologi Industri';
++-------+-------------------+------+----------+------------+-----------------------------+
+| NIM   | Nama              | JKEL | Alamat   | TGLLHR     | fakultas                    |
++-------+-------------------+------+----------+------------+-----------------------------+
+| MHS01 | Siti Aminah       | P    | SOLO     | 1995-10-01 | Fakultas Teknologi Industri |
+| MHS05 | Rachmad Nur Fauzi | L    | BOYOLALI | 2000-04-30 | Fakultas Teknologi Industri |
++-------+-------------------+------+----------+------------+-----------------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [akademik]> select * from mahasiswa where JKEL='P';
++-------+-------------+------+---------+------------+-------------------------------+
+| NIM   | Nama        | JKEL | Alamat  | TGLLHR     | fakultas                      |
++-------+-------------+------+---------+------------+-------------------------------+
+| MHS01 | Siti Aminah | P    | SOLO    | 1995-10-01 | Fakultas Teknologi Industri   |
+| MHS02 | Rita        | P    | SOLO    | 1999-01-01 | Fakultas Kedokteran           |
+| MHS04 | Siti Maryam | P    | JAKARTA | 1995-04-15 | Fakultas Kesehatan Masyarakat |
++-------+-------------+------+---------+------------+-------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [akademik]> select * from mahasiswa where Nama='Rita';
++-------+------+------+--------+------------+---------------------+
+| NIM   | Nama | JKEL | Alamat | TGLLHR     | fakultas            |
++-------+------+------+--------+------------+---------------------+
+| MHS02 | Rita | P    | SOLO   | 1999-01-01 | Fakultas Kedokteran |
++-------+------+------+--------+------------+---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [akademik]> select * from mahasiswa where TGLLHR='1998-08-11';
++-------+----------+------+----------+------------+----------------+
+| NIM   | Nama     | JKEL | Alamat   | TGLLHR     | fakultas       |
++-------+----------+------+----------+------------+----------------+
+| MHS03 | Amirudin | L    | SEMARANG | 1998-08-11 | Fakultas Hukum |
++-------+----------+------+----------+------------+----------------+
+1 row in set (0.009 sec)
+
+MariaDB [akademik]> select * from mahasiswa;
++-------+-------------------+------+----------+------------+-------------------------------+
+| NIM   | Nama              | JKEL | Alamat   | TGLLHR     | fakultas                      |
++-------+-------------------+------+----------+------------+-------------------------------+
+| MHS01 | Siti Aminah       | P    | SOLO     | 1995-10-01 | Fakultas Teknologi Industri   |
+| MHS02 | Rita              | P    | SOLO     | 1999-01-01 | Fakultas Kedokteran           |
+| MHS03 | Amirudin          | L    | SEMARANG | 1998-08-11 | Fakultas Hukum                |
+| MHS04 | Siti Maryam       | P    | JAKARTA  | 1995-04-15 | Fakultas Kesehatan Masyarakat |
+| MHS05 | Rachmad Nur Fauzi | L    | BOYOLALI | 2000-04-30 | Fakultas Teknologi Industri   |
++-------+-------------------+------+----------+------------+-------------------------------+
+
